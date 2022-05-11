@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace AlgoDataStructures.LinkedList
 {
-   public class DoubleLinkedList <T> where T : IComparable<T> //T is just generic, you can use any char
+    public class DoubleLinkedList<T> where T : IComparable<T> //T is just generic, you can use any char
     {
-        public Node<T> HeadOfList { get; set; }
+        public Node<T> HeadOfList { get; set; } = new();
 
         public int Count { get; set; } = 0;
 
@@ -21,22 +21,26 @@ namespace AlgoDataStructures.LinkedList
             any unnecessary commas or spaces at the beginning or end.*/
             Node<T> getString = HeadOfList;
             string Stuff = "";
-            while (getString.next != null)
+            for (int i = 0; i < Count - 1; i++) //Iterate everything before the last node and contcatnate with seperator
             {
-                if (getString.Data != null)
-                {
-                    Stuff += (string)(object)getString.Data + ", ";
-                    getString = getString.next;
-                }
+                Stuff += getString.Data.ToString() + ", ";
+                getString = getString.next;
             }
-            Stuff.TrimEnd(',');
+            if (getString != null) //if not empty list
+            {
+                Stuff += getString.Data.ToString(); //Concatnate our final item without a seperator.
+            }
+            if (Count == 0) //Stops us from returning "0" for empty int linked lists
+            {
+                return "";
+            }
             return Stuff;
 
         }
 
         public void Add(T item)
         {
-            if (HeadOfList.next != null)
+            if (Count != 0) //Check and see if the head has been filled yet
             {
                 Node<T> EndNode = HeadOfList;
                 while (EndNode.next != null)
@@ -45,8 +49,8 @@ namespace AlgoDataStructures.LinkedList
                 }
                 //Reached end of nodes
                 EndNode.next = new Node<T>(); //Fill Null with a new node
-                EndNode = EndNode.next; //set the new node as our modifyable
-                EndNode.Data = item; //put data in new node.
+                EndNode.next.Data = item; //put data in new node.
+                EndNode.next.previous = EndNode;
             }
             else
             {
@@ -59,7 +63,7 @@ namespace AlgoDataStructures.LinkedList
         {
             if (index >= Count || index < 0)
             {
-                throw new ArgumentException("Index is out of range");
+                throw new IndexOutOfRangeException("Out-of-bounds index was allowed");
             }
 
             Node<T> insert = HeadOfList;
@@ -67,10 +71,15 @@ namespace AlgoDataStructures.LinkedList
             while (CurrentIndex != index)
             {
                 insert = insert.next;
+                CurrentIndex++;
             }
-            Node<T> AfterInsert = insert;
+            Node<T> AfterInsert = new();
+            AfterInsert.Data = insert.Data;
+            AfterInsert.next = insert.next;
             insert.Data = val;
             insert.next = AfterInsert;
+            insert.next.previous = insert;
+            Count++;
 
             /* inserts a new value at a given index, pushing the existing value 
             at that index to the next index spot, and so on. Insert may ONLY target indices that are 
@@ -85,25 +94,72 @@ namespace AlgoDataStructures.LinkedList
         {
             /*returns the value at the given index. Any index less than zero or equal to 
             or greater than Count should throw an index out of bounds exception.*/
-            return HeadOfList.Data;
-            //if(index >= 0)
-            //{
-            //    for (int i = 0; i < index; i++)
-            //    {
+            if (index >= Count || index < 0)
+            {
+                throw new IndexOutOfRangeException("Out-of-bounds index was allowed");
+            }
 
-            //    }
-            //}
+            Node<T> current = HeadOfList;
+            int CurrentIndex = 0;
+            while (CurrentIndex != index)
+            {
+                current = current.next;
+                CurrentIndex++;
+            }
+            return current.Data;
         }
 
         public T Remove()
         {
-            return HeadOfList.Data;
+            T value = HeadOfList.Data;
+            if (HeadOfList.next != null)
+            {
+                HeadOfList = HeadOfList.next;
+                HeadOfList.previous = null;
+            }
+            else
+            {
+                HeadOfList = null;
+            }
+            Count--;
+            return value;
             //Remove First Value in list and return it
         }
 
         public T RemoveAt(int index)
         {
-            return HeadOfList.Data;
+            if (index >= Count || index < 0)
+            {
+                throw new IndexOutOfRangeException("Out-of-bounds index was allowed");
+            }
+            if (index == 0) //Remove the head
+            {
+                T value = HeadOfList.Data;
+                HeadOfList = HeadOfList.next;
+                HeadOfList.previous = null;
+                Count--;
+                return value;
+            }
+            else
+            {
+                Node<T> Remove = HeadOfList;
+                int CurrentIndex = 1; //set to -1 so we can update the .Next for the previous node.
+                while (CurrentIndex != index)
+                {
+                    Remove = Remove.next;
+                    CurrentIndex++;
+                }
+                //if the removed item has node(s), we need to keep it! otherwise it's already null
+                T value = Remove.next.Data;
+                if (Remove.next.next != null)
+                {
+                    Remove.next = Remove.next.next;
+                    Remove.next.previous = Remove;
+                }
+                Count--;
+                return value;
+            }
+
             /*removes and returns the value at a given index. Any index less 
             than zero or equal to or greater than Count should throw an index out of bounds 
             exception.*/
@@ -111,22 +167,63 @@ namespace AlgoDataStructures.LinkedList
 
         public T RemoveLast()
         {
-            return HeadOfList.Data;
+            if (HeadOfList.next == null)
+            {
+                T value = default(T);
+                value = HeadOfList.Data;
+                HeadOfList = null;
+                Count--;
+                return value;
+            }
+            else
+            {
+                Node<T> Traverse = HeadOfList;
+                while (Traverse.next.next != null) //we want to reach the node before the one we delete and null the next
+                {
+                    Traverse = Traverse.next;
+                }
+                T value = default(T);
+                value = Traverse.next.Data;
+                Traverse.next = null;
+                Count--;
+                return value;
+            }
+
             /* removes and returns the last value in the list*/
         }
 
         public void Clear()
         {
             // remove all values in the list
-            HeadOfList = new Node<T>();
+            HeadOfList = null;
+            Count = 0;
         }
 
         public int Search(T val)
         {
-            return -1;
+            bool NotFound = true;
+            int index = 0;
+            Node<T> Traverse = HeadOfList;
+            while (NotFound && Traverse != null)
+            {
+                if (Traverse.Data.Equals(val))
+                {
+                    NotFound = false;
+                    break;
+                }
+                Traverse = Traverse.next;
+                index++;
+            }
+            if (NotFound)
+            {
+                return -1;
+            }
+            else
+            {
+                return index;
+            }
             /*searches for a value in the list and returns the first index of that value 
             when found. If the key is not found in the list, the method returns -1.*/
         }
     }
-
 }

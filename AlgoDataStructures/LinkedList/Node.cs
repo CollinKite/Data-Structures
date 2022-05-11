@@ -8,9 +8,11 @@ namespace AlgoDataStructures.LinkedList
 {
     public class Node<T>
     {
-        public T Data { get; set; }
+        public T Data { get; set; } = default(T);
         
         public Node<T> next { get; set; }
+
+        public Node<T> previous { get; set; }
 
     }
 }
