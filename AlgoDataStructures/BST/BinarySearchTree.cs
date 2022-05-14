@@ -35,6 +35,25 @@ namespace AlgoDataStructures.BST
         {
             return Root != null? 0 : Root.Height();
         }
+
+        public void Remove(T val)
+        {
+            if(Root!= null && Contains(val))
+            {
+                Root = Root.Remove(val);
+                Count--;
+            }
+        }
+
+        public bool Contains(T val)
+        {
+            return false;
+        }
+
+        public string InOrder()
+        {
+            return "";
+        }
     }
 
     
