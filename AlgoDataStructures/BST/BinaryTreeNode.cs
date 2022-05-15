@@ -35,7 +35,7 @@ namespace AlgoDataStructures.BST
             }
             else if(Data.CompareTo(val) < 0) //if the value we're adding is greater than the current nodes value
             {
-                if (Right != null) //If we have further child nodes keep traversing
+                if (Right != null) //If we have further child nodes keep traversing till we hit null or same value
                 {
                     Right.Add(val);
                 }
@@ -46,9 +46,9 @@ namespace AlgoDataStructures.BST
                     Right.Count++;
                 }
             }
-            else
+            else //value is the same as the current node and we need to increase the count
             {
-
+                Count++;
             }
         }
 
@@ -56,21 +56,33 @@ namespace AlgoDataStructures.BST
 
         public int Height()
         {
-            int size = 0;
+            int LeftSize = 0;
+            int RightSize = 0;
             if(Left != null)
             {
-                Height
+                LeftSize += Left.Height();
             }
-            return size;
+            else if(Right != null)
+            {
+                RightSize += Right.Height();
+            }
+            if(LeftSize >= RightSize) //made sure to add check if they're the same
+            {
+                return LeftSize + 1; // add 1 to include root
+            }
+            else
+            {
+                return RightSize + 1;
+            }
         }
 
         public BinaryTreeNode<T> Remove(T val)
         {
-            if(val.CompareTo(Data) < 0)
+            if(val.CompareTo(Data) < 0) //val is less than the data
             {
                 return Left = Left.Remove(val);
             }
-            else if(val.CompareTo(Data) > 0) //comprareTo
+            else if(val.CompareTo(Data) > 0) //Val is greater than the data
             {
                 return Right = Right.Remove(val);
             }
@@ -102,6 +114,62 @@ namespace AlgoDataStructures.BST
                 Left = Left.Right;
             }
             return Left.Data;
+        }
+
+        public string InOrder(string Order)
+        {
+            if(Left != null)
+            {
+                Order += Left.InOrder(Order);
+            }
+            Order += Data.ToString();
+            if(Right != null)
+            {
+                Order += Right.InOrder(Order);
+            }
+            return Order;
+
+        }
+
+        public string PostOrder()
+        {
+            return "";
+        }
+
+        public string PreOrder()
+        {
+            return "";
+
+        }
+
+        public T[] ToArray(T[] Arr, int index)
+        {
+            if(Left != null)
+            {
+                Arr = Left.ToArray(Arr, index);
+            } //Traverse until we hit our 0th Value
+            for (int i = 0; i < Count; i++)
+            {
+                Arr[index] = Data;
+                index++;
+            } // Add the value * the count
+
+        }
+        public bool Contains(T value)
+        {
+            if (Data.Equals(value))
+            {
+                return true;
+            }
+            else if (value.CompareTo(Data) > 0 && Right != null)  //Greater than current node and we can keep traversing
+            {
+                return Right.Contains(value);
+            }
+            else if (value.CompareTo(Data) < 0 && Left != null) //Less than current node and we can keep traversing
+            {
+                return Left.Contains(value);
+            }
+            return false;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace AlgoDataStructures.BST
 
         public void Add(T val)
         {
-            if(Root == null)
+            if (Root == null)
             {
                 Root = new BinaryTreeNode<T>(val);
             }
@@ -33,12 +33,12 @@ namespace AlgoDataStructures.BST
 
         public int Height()
         {
-            return Root != null? 0 : Root.Height();
+            return Root != null ? 0 : Root.Height();
         }
 
         public void Remove(T val)
         {
-            if(Root!= null && Contains(val))
+            if (Root != null && Contains(val))
             {
                 Root = Root.Remove(val);
                 Count--;
@@ -47,14 +47,66 @@ namespace AlgoDataStructures.BST
 
         public bool Contains(T val)
         {
+            if(Root != null)
+            {
+                Root.Contains(val);
+            }
             return false;
         }
 
         public string InOrder()
         {
-            return "";
+            if (Root != null)
+            {
+                string order = "";
+                return Root.InOrder(order);
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        public T[] ToArray()
+        {
+            if (Root != null)
+            {
+                T[] Arr = new T[Count];
+                return Root.ToArray(Arr, 0);
+            }
+            else
+            {
+                T[] EmptyArr = new T[0];
+                return EmptyArr;
+            }
+        }
+
+        public string PostOrder()
+        {
+            if (Root != null)
+            {
+                return Root.PostOrder();
+            }
+            else
+            {
+                return "";
+            }
+
+        }
+
+        public string PreOrder()
+        {
+            if (Root != null)
+            {
+                return Root.PreOrder();
+            }
+            else
+            {
+                return "";
+            }
+
         }
     }
-
-    
 }
+
+   
