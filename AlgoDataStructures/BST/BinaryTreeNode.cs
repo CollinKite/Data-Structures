@@ -76,22 +76,22 @@ namespace AlgoDataStructures.BST
             }
         }
 
-        public BinaryTreeNode<T> Remove(T val)
+        public BinaryTreeNode<T> Remove(T val, int count = 1)
         {
             if (val.CompareTo(Data) < 0) //val is less than the data
             {
-                Left = Left.Remove(val);
+                Left = Left.Remove(val, count);
                 return this;
             }
             else if (val.CompareTo(Data) > 0) //Val is greater than the data
             {
-                Right = Right.Remove(val);
+                Right = Right.Remove(val, count);
                 return this;
             }
             //Reached our value 
-                if (Count > 1)
+                if (Count > count)
                 {
-                    Count--;
+                    Count =  Count - count;
                     return this;
                 }
                 else
@@ -111,7 +111,7 @@ namespace AlgoDataStructures.BST
                         (T, int) DataToCopy = FindLargestOnLeft(Left);
                         Data = DataToCopy.Item1;
                         Count = DataToCopy.Item2;
-                        Left = Left.Remove(Data);
+                        Left = Left.Remove(Data, Count);
                         return this;
                     }
                 }
