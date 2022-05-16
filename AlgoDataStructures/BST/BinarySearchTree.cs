@@ -72,7 +72,7 @@ namespace AlgoDataStructures.BST
             if (Root != null)
             {
                 T[] Arr = new T[Count];
-                return Root.ToArray(Arr, 0);
+                return Root.ToArray(Arr);
             }
             else
             {

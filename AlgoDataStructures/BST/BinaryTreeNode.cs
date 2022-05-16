@@ -78,41 +78,53 @@ namespace AlgoDataStructures.BST
 
         public BinaryTreeNode<T> Remove(T val)
         {
-            if(val.CompareTo(Data) < 0) //val is less than the data
+            if (val.CompareTo(Data) < 0) //val is less than the data
             {
                 Left = Left.Remove(val);
-            }
-            else if(val.CompareTo(Data) > 0) //Val is greater than the data
-            {
-              Right = Right.Remove(val);
-            }
-            //Reached our value 
-            if (Left == null)
-            {
-                return Right;
-            }
-            else if (Right == null)
-            {
-                return Left;
-            }
-            else
-            {
-                T Data = FindLargestOnLeft(Left);
-                Left = Left.Remove(Data);
                 return this;
             }
-
-   
+            else if (val.CompareTo(Data) > 0) //Val is greater than the data
+            {
+                Right = Right.Remove(val);
+                return this;
+            }
+            //Reached our value 
+                if (Count > 1)
+                {
+                    Count--;
+                    return this;
+                }
+                else
+                {
+                    //if the node we're deleting has only one child or no children
+                    if (Left == null)
+                    {
+                        return Right;
+                    }
+                    else if (Right == null)
+                    {
+                        return Left;
+                    }
+                    //If the node we're deleting has 2 children - find the  highest on the left side and copy it to our value we're deleting (don't forget count) and then delete the original copy
+                    else
+                    {
+                        (T, int) DataToCopy = FindLargestOnLeft(Left);
+                        Data = DataToCopy.Item1;
+                        Count = DataToCopy.Item2;
+                        Left = Left.Remove(Data);
+                        return this;
+                    }
+                }
+            
         }
 
-        public T FindLargestOnLeft(BinaryTreeNode<T> node)
+        public (T, int) FindLargestOnLeft(BinaryTreeNode<T> node) //Return touple because we have to copy up our count too
         {
-            BinaryTreeNode<T> Left = node.Left;
-            while(Right != null)
+            if(node.Right != null)
             {
-                Left = Left.Right;
+                return FindLargestOnLeft(node.Right);
             }
-            return Left.Data;
+            return (node.Data, node.Count);
         }
 
         public string InOrder()
@@ -141,33 +153,87 @@ namespace AlgoDataStructures.BST
 
         }
 
-        public string PostOrder()
-        {
-            return "";
-        }
-
         public string PreOrder()
         {
-            return "";
+            string order = "";
+            order = PreOrder(order);
+            order = order.TrimEnd();
+            order = order.TrimEnd(',');
+            return order;
+        }
+
+        public string PreOrder(string order)
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                order += Data.ToString() + ", ";
+            }
+            if(Left != null)
+            {
+                order = Left.PreOrder(order);
+            }
+            if(Right != null)
+            {
+                order = Right.PreOrder(order);
+            }
+            return order;
 
         }
 
-        public T[] ToArray(T[] Arr, int index)
+        public string PostOrder()
+        {
+            string order = "";
+            order = PostOrder(order);
+            order = order.TrimEnd();
+            order = order.TrimEnd(',');
+            return order;
+        }
+        public string PostOrder(string order)
         {
             if (Left != null)
             {
-                Arr = Left.ToArray(Arr, index);
-            } //Traverse until we hit our 0th Value
+                order = Left.PostOrder(order);
+            }
+            if (Right != null)
+            {
+                order = Right.PostOrder(order);
+            }
+            for (int i = 0; i < Count; i++)
+            {
+                order += Data.ToString() + ", ";
+            }
+            return order;
+
+        }
+
+        public T[] ToArray(T[] arr)
+        {
+            T[] stuff = arr;
+            return ToArray(stuff, 0).Item1;
+        }
+
+        public (T[], int) ToArray(T[] Arr, int index)
+        {
+            if (Left != null) //Traverse to left most node
+            {
+                (T[], int) DataStuff = Left.ToArray(Arr, index);
+                Arr = DataStuff.Item1;
+                index = DataStuff.Item2;
+            }
             for (int i = 0; i < Count; i++)
             {
                 Arr[index] = Data;
                 index++;
-            } // Add the value to to array
+            }
             if(Right != null)
             {
-                Arr = Right.ToArray(Arr, index);
+                (T[], int) DataStuff = Right.ToArray(Arr, index);
+                Arr = DataStuff.Item1;
+                index = DataStuff.Item2;
             }
-            return Arr;
+            return (Arr, index);
+   
+
         }
         public bool Contains(T value)
         {
