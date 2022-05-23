@@ -10,6 +10,20 @@ namespace AVLUnitTester
     public class AVLUnitTests
     {
         [TestMethod]
+        public void TestBreadthFirstToArray()
+        {
+            AVLTree<int> avl = new AVLTree<int>();
+            avl.Add(11);
+            avl.Add(10);
+            avl.Add(24);
+            avl.Add(13);
+            avl.Add(56);
+            string expected = "11, 10, 24, 13, 56";
+            string actual = ArrayToString(avl.ToArray());
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void AddOneValueToEmptyTree()
         {
             AVLTree<int> avl = new AVLTree<int>();
@@ -513,7 +527,7 @@ namespace AVLUnitTester
             Console.WriteLine(sb.ToString());
         }
 
-        public void TraverseNodes(StringBuilder sb, String padding, String pointer, AVLNode<int> node, bool hasRightSibling)
+        public void TraverseNodes(StringBuilder sb, String padding, String pointer, AVLTreeNode<int> node, bool hasRightSibling)
         {
             if (node != null)
             {

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+//https://www.youtube.com/watch?v=1QSYxIKXXP4&ab_channel=WilliamFiset
 namespace AlgoDataStructures.AVL
 {
     public class AVLTreeNode<T> where T : IComparable<T>
@@ -18,26 +20,64 @@ namespace AlgoDataStructures.AVL
         public AVLTreeNode<T> Left { get; set; }
         public AVLTreeNode<T> Right { get; set; }
 
-        public void Add(T val)
+        private int CheckBalance(AVLTreeNode<T> node)
+        {
+            int balance = node.Left.Height() - node.Right.Height();
+            return balance;
+        }
+
+        //Right Rotation
+        private AVLTreeNode<T> RightRotation(AVLTreeNode<T> node)
+        {
+            AVLTreeNode<T> newRoot = node.Left;
+            node.Left = newRoot.Right;
+            newRoot.Right = node;
+            return newRoot;
+        }
+
+        //Left Rotation
+        private AVLTreeNode<T> LeftRotation(AVLTreeNode<T> node)
+        {
+            AVLTreeNode<T> newRoot = node.Right;
+            node.Right = newRoot.Left;
+            newRoot.Left = node;
+            return newRoot;
+        }
+
+
+        public AVLTreeNode<T> Add(T val)
         {
             if(Data.CompareTo(val) > 0) //if the value we're adding is less than the current nodes value
             {
                 if(Left != null)
                 {
-                    Left.Add(val);
+                    Left = Left.Add(val);
                 }
                 else
                 {
                     Left = new AVLTreeNode<T>();
                     Left.Data = val;
                     Left.Count++;
+                    int bal = CheckBalance(this);
+                    if (bal == 1|| bal == 0|| bal == -1)
+                    {
+                        return this;
+                    }
+                    else if(bal > 1) //Left Heavy
+                    {
+                        
+                    }
+                    else if(bal < -1) //Right Heavy
+                    {
+
+                    }
                 }
             }
             else if(Data.CompareTo(val) < 0) //if the value we're adding is greater than the current nodes value
             {
                 if (Right != null) //If we have further child nodes keep traversing till we hit null or same value
                 {
-                    Right.Add(val);
+                    Right = Right.Add(val);
                 }
                 else //Otherwise we're at the end and we need to add out value
                 {
@@ -49,7 +89,24 @@ namespace AlgoDataStructures.AVL
             else //value is the same as the current node and we need to increase the count
             {
                 Count++;
+                return this;
             }
+            
+            //check balance (left height - right height, if = 1,0,-1
+            //if balanced and return this
+            //other wise calculate if right heavy or left heavy and preform rotation(s)
+            //Left - Right Heavy,
+            //Right - Left Heavy,
+            //Left Right - Left Heavy, but child node has right child so you preform a left rotate on the right child and return and then preform a Right Rotate,
+            //Ex.
+            //      [5]         [5]         [4]
+            //      / \         / \         / \
+            //     [3]         [4]        [3] [5]
+            //       \         /  
+            //       [4]     [3]
+            
+            //Right Left - same as above but opposite. Right Heavy and child node has a LEFT child
+
         }
 
         public int Count { get; set; } = 0; //for duplicate values we just increase/decrease the count of how many values exist in the node
@@ -207,7 +264,7 @@ namespace AlgoDataStructures.AVL
 
         }
 
-        public T[] ToArray(int level, T[] Arr, int index)
+        public (T[], int) ToArray(int level, T[] Arr, int index)
         {
             //breadth First - print by levels - Left, Root, Right
             // ex.
@@ -225,39 +282,24 @@ namespace AlgoDataStructures.AVL
 
             if(level == 0)
             {
-                Arr[index] = Data;
-                index++;
+                for (int i = 0; i < Count; i++)
+                {
+                    Arr[index] = Data;
+                    index++;
+                }
             }
             else
             {
-                Left.ToArray((level - 1), Arr, index);
-                Right.ToArray((level - 1), Arr, index);
-            }
-            return Arr;
-        }
-
-        public (T[], int) ToArray(T[] Arr, int index)
-        {
-            if (Left != null) //Traverse to left most node
-            {
-                (T[], int) DataStuff = Left.ToArray(Arr, index);
-                Arr = DataStuff.Item1;
-                index = DataStuff.Item2;
-            }
-            for (int i = 0; i < Count; i++)
-            {
-                Arr[index] = Data;
-                index++;
-            }
-            if(Right != null)
-            {
-                (T[], int) DataStuff = Right.ToArray(Arr, index);
-                Arr = DataStuff.Item1;
-                index = DataStuff.Item2;
+                if(Left!= null)
+                {
+                    (Arr, index) = Left.ToArray((level - 1), Arr, index);
+                }
+                if(Right != null)
+                {
+                    (Arr, index) = Right.ToArray((level - 1), Arr, index);
+                }
             }
             return (Arr, index);
-   
-
         }
         public bool Contains(T value)
         {

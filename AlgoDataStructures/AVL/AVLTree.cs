@@ -71,14 +71,17 @@ namespace AlgoDataStructures.AVL
         {
             if(Root != null)
             {
-                for (int i = 0; i < Root.Height(); i++)
+                T[] Arr = new T[Count];
+                int index = 0;
+                for (int i = 0; i <= Root.Height(); i++)
                 {
-                    Root.ToArray(i);
+                    (Arr, index) = Root.ToArray(i, Arr, index); 
                 }
+                return Arr;
             }
             else
             {
-                return
+                return new T[0];
             }
         }
 
