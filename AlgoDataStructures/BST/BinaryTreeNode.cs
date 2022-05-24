@@ -62,7 +62,7 @@ namespace AlgoDataStructures.BST
             {
                 LeftSize += Left.Height();
             }
-            else if(Right != null)
+            if(Right != null)
             {
                 RightSize += Right.Height();
             }
