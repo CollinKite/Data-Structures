@@ -64,53 +64,37 @@ namespace AlgoDataStructures.AVL
             }
             else if (bal > 1) //Left Heavy
             {
-                node.Left = LeftHeavyCheck(node.Left);
+                node.Left = LeftRightHeavyCheck(node.Left);
                 node = RightRotation(node);
                 return node;
             }
             else //right heavy
             {
-                node.Right = RightHeavyCheck(node.Right);
+                node.Right = RightLeftHeavyCheck(node.Right);
                 node = LeftRotation(node);
                 return node;
             }
         }
 
-        //Left Leaf with right Check
-        private AVLTreeNode<T> LeftHeavyCheck(AVLTreeNode<T> node)
+        //Check if Left Needs to be done before Right
+        private AVLTreeNode<T> LeftRightHeavyCheck(AVLTreeNode<T> node)
         {
-            if(node.Left != null)
-            {
-                node.Left = LeftHeavyCheck(node.Left);
-                return node;
-            }
-            else if(node.Right != null)
+            if(node.CheckBalance() == -1)
             {
                 node = LeftRotation(node);
-                return node;
             }
-            else
-            {
-                return node;
-            }
+            return node;
+
         }
 
-        private AVLTreeNode<T> RightHeavyCheck(AVLTreeNode<T> node)
+        //Check if Right Needs to be done before Left
+        private AVLTreeNode<T> RightLeftHeavyCheck(AVLTreeNode<T> node)
         {
-            if (node.Right != null)
-            {
-                node.Right = RightHeavyCheck(node.Right);
-                return node;
-            }
-            else if (node.Left != null)
+            if (node.CheckBalance() == 1)
             {
                 node = RightRotation(node);
-                return node;
             }
-            else
-            {
-                return node;
-            }
+            return node;
         }
 
 
