@@ -9,19 +9,35 @@ namespace AVLUnitTester
     [TestClass]
     public class AVLUnitTests
     {
-        [TestMethod]
-        public void TestBreadthFirstToArray()
-        {
-            AVLTree<int> avl = new AVLTree<int>();
-            avl.Add(11);
-            avl.Add(10);
-            avl.Add(24);
-            avl.Add(13);
-            avl.Add(56);
-            string expected = "11, 10, 24, 13, 56";
-            string actual = ArrayToString(avl.ToArray());
-            Assert.AreEqual(expected, actual);
-        }
+        //[TestMethod]
+        //public void RightRotateTest() //Only works when Self Balancing isn't implemented yet
+        //{
+        //    AVLTree<int> avl = new();
+        //    avl.Add(22);
+        //    avl.Add(18);
+        //    avl.Add(43);
+        //    avl.Add(9);
+        //    avl.Add(21);
+        //    avl.Add(6);
+        //    avl.Root = avl.Root.RightRotation(avl.Root);
+        //    string expected = "18, 9, 22, 6, 21, 43";
+        //    string actual = ArrayToString(avl.ToArray());
+        //    Assert.AreEqual(expected, actual);
+
+        //}
+        //[TestMethod]
+        //public void TestBreadthFirstToArray() //Tests ToArray returns Breadth First, assuming Self Balancing isn't implemented yet
+        //{
+        //    AVLTree<int> avl = new AVLTree<int>();
+        //    avl.Add(11);
+        //    avl.Add(10);
+        //    avl.Add(24);
+        //    avl.Add(13);
+        //    avl.Add(56);
+        //    string expected = "11, 10, 24, 13, 56";
+        //    string actual = ArrayToString(avl.ToArray());
+        //    Assert.AreEqual(expected, actual);
+        //}
 
         [TestMethod]
         public void AddOneValueToEmptyTree()

@@ -21,7 +21,7 @@ namespace AlgoDataStructures.AVL
             }
             else
             {
-                Root.Add(val);
+                Root = Root.Add(val);
             }
             Count++;
         }
