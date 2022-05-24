@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
+// Videos That Help
 //https://www.youtube.com/watch?v=1QSYxIKXXP4&ab_channel=WilliamFiset
+//https://www.youtube.com/watch?v=7m94k2Qhg68
 namespace AlgoDataStructures.AVL
 {
     public class AVLTreeNode<T> where T : IComparable<T>
@@ -20,19 +21,29 @@ namespace AlgoDataStructures.AVL
         public AVLTreeNode<T> Left { get; set; }
         public AVLTreeNode<T> Right { get; set; }
 
-        private int CheckBalance(AVLTreeNode<T> node)
+        public int CheckBalance()
         {
-            int balance = node.Left.Height() - node.Right.Height();
-            return balance;
+            int LeftHeight = 0;
+            int RightHeight = 0;
+            if(Left != null)
+            {
+                LeftHeight = Left.Height();
+            }
+            if(Right != null)
+            {
+                RightHeight = Right.Height();
+            }
+            int bal = LeftHeight - RightHeight;
+            return bal;
         }
 
         //Right Rotation
         private AVLTreeNode<T> RightRotation(AVLTreeNode<T> node)
         {
-            AVLTreeNode<T> newRoot = node.Left;
-            node.Left = newRoot.Right;
-            newRoot.Right = node;
-            return newRoot;
+            AVLTreeNode<T> NewRoot = node.Left;
+            node.Left = NewRoot.Right;
+            NewRoot.Right = node;
+            return NewRoot;
         }
 
         //Left Rotation
@@ -44,6 +55,64 @@ namespace AlgoDataStructures.AVL
             return newRoot;
         }
 
+        public AVLTreeNode<T> Balance(AVLTreeNode<T> node)
+        {
+            int bal = node.CheckBalance();
+            if (bal == 1 || bal == 0 || bal == -1)
+            {
+                return node;
+            }
+            else if (bal > 1) //Left Heavy
+            {
+                node.Left = LeftHeavyCheck(node.Left);
+                node = RightRotation(node);
+                return node;
+            }
+            else //right heavy
+            {
+                node.Right = RightHeavyCheck(node.Right);
+                node = LeftRotation(node);
+                return node;
+            }
+        }
+
+        //Left Leaf with right Check
+        private AVLTreeNode<T> LeftHeavyCheck(AVLTreeNode<T> node)
+        {
+            if(node.Left != null)
+            {
+                node.Left = LeftHeavyCheck(node.Left);
+                return node;
+            }
+            else if(node.Right != null)
+            {
+                node = LeftRotation(node);
+                return node;
+            }
+            else
+            {
+                return node;
+            }
+        }
+
+        private AVLTreeNode<T> RightHeavyCheck(AVLTreeNode<T> node)
+        {
+            if (node.Right != null)
+            {
+                node.Right = RightHeavyCheck(node.Right);
+                return node;
+            }
+            else if (node.Left != null)
+            {
+                node = RightRotation(node);
+                return node;
+            }
+            else
+            {
+                return node;
+            }
+        }
+
 
         public AVLTreeNode<T> Add(T val)
         {
@@ -52,25 +121,14 @@ namespace AlgoDataStructures.AVL
                 if(Left != null)
                 {
                     Left = Left.Add(val);
+                    return Balance(this);
                 }
                 else
                 {
                     Left = new AVLTreeNode<T>();
                     Left.Data = val;
                     Left.Count++;
-                    int bal = CheckBalance(this);
-                    if (bal == 1|| bal == 0|| bal == -1)
-                    {
-                        return this;
-                    }
-                    else if(bal > 1) //Left Heavy
-                    {
-                        
-                    }
-                    else if(bal < -1) //Right Heavy
-                    {
-
-                    }
+                    return Balance(this);
                 }
             }
             else if(Data.CompareTo(val) < 0) //if the value we're adding is greater than the current nodes value
@@ -78,12 +136,14 @@ namespace AlgoDataStructures.AVL
                 if (Right != null) //If we have further child nodes keep traversing till we hit null or same value
                 {
                     Right = Right.Add(val);
+                    return Balance(this);
                 }
                 else //Otherwise we're at the end and we need to add out value
                 {
                     Right = new AVLTreeNode<T>();
                     Right.Data = val;
                     Right.Count++;
+                    return Balance(this);
                 }
             }
             else //value is the same as the current node and we need to increase the count
@@ -119,7 +179,7 @@ namespace AlgoDataStructures.AVL
             {
                 LeftSize += Left.Height();
             }
-            else if(Right != null)
+            if(Right != null)
             {
                 RightSize += Right.Height();
             }
