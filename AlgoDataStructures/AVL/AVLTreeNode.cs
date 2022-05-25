@@ -182,18 +182,18 @@ namespace AlgoDataStructures.AVL
             if (val.CompareTo(Data) < 0) //val is less than the data
             {
                 Left = Left.Remove(val, count);
-                return this;
+                return Balance(this);
             }
             else if (val.CompareTo(Data) > 0) //Val is greater than the data
             {
                 Right = Right.Remove(val, count);
-                return this;
+                return Balance(this);
             }
             //Reached our value 
                 if (Count > count)
                 {
                     Count =  Count - count;
-                    return this;
+                    return Balance(this);
                 }
                 else
                 {
@@ -213,7 +213,7 @@ namespace AlgoDataStructures.AVL
                         Data = DataToCopy.Item1;
                         Count = DataToCopy.Item2;
                         Left = Left.Remove(Data, Count);
-                        return this;
+                        return Balance(this);
                     }
                 }
             
