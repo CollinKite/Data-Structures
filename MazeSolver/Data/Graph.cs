@@ -8,7 +8,7 @@ namespace MazeSolver.Data
 {
     public class Graph
     {
-        public List<Vertex> nodes { get; set; }
+        public List<Vertex> nodes { get; set; } = new();
 
         public Vertex Start { get; set; }
         public Vertex End { get; set; }

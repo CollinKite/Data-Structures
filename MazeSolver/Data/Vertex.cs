@@ -10,11 +10,17 @@ namespace MazeSolver.Data
     public class Vertex
     {
         public char Data { get; set; }
-        public List<Edge> Connections { get; set; }
+        public List<Edge> Connections { get; set; } = new();
         public int Index { get; set; }
         public void AddConnection(Edge edge)
         {
             Connections.Add(edge);
+        }
+
+        public Vertex(int index, char data)
+        {
+            Data = data;
+            Index = index;
         }
     }
 }
