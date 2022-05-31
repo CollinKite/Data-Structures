@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyUnitTests", "MyUnitTests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlgoDataStructures", "AlgoDataStructures\AlgoDataStructures.csproj", "{8D810DC6-BDCD-458B-B1C0-F178C5023B53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeSolver", "MazeSolver\MazeSolver.csproj", "{F64EF8FC-047D-421B-A943-935E8BECDBA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MazeSolver", "MazeSolver\MazeSolver.csproj", "{F64EF8FC-047D-421B-A943-935E8BECDBA2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkArchitect", "NetworkArchitect\NetworkArchitect.csproj", "{9813CE07-232B-432D-BE60-0E0A4533AB49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{F64EF8FC-047D-421B-A943-935E8BECDBA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F64EF8FC-047D-421B-A943-935E8BECDBA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F64EF8FC-047D-421B-A943-935E8BECDBA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9813CE07-232B-432D-BE60-0E0A4533AB49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9813CE07-232B-432D-BE60-0E0A4533AB49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9813CE07-232B-432D-BE60-0E0A4533AB49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9813CE07-232B-432D-BE60-0E0A4533AB49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
