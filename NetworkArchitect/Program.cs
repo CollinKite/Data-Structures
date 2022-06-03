@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using NetworkArchitect.Data;
 namespace NetworkArchitect
@@ -9,8 +10,8 @@ namespace NetworkArchitect
         {
             Console.WriteLine("Enter path to file: ");
             var path = Console.ReadLine();
-
-            Graph graph = new Graph(File.ReadAllLines(path));
+            List<string> lines = new List<string>(File.ReadAllLines(path));
+            Graph graph = new Graph(lines);
 
             Results primsResult = SolveWithPrims.Solve(graph);
 

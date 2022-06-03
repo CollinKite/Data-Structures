@@ -11,39 +11,70 @@ namespace NetworkArchitect.Data
     {
         public List<Node> Nodes { get; set; }
 
-        public Graph(string[] setupLines)
+        public Graph(List<string> setupLines)
         {
-            //AX1,AX2,AX3,AX4,AX5
-            //Add Nodes
-            string[] Nodes = setupLines[0].Split(',');
-            for (int i = 0; i < Nodes.Length; i++)
+            Nodes = new();
+            SetupGraph(setupLines);
+        }
+
+        private void SetupGraph(List<string> setupLines)
+        {
+            if(setupLines.Count == 0)
             {
-                Node node = new(Nodes[i]);
-                this.Nodes.Add(node);
+                Console.WriteLine("Error Empty Graph");
+                return;
             }
-            //Add Edges
-            //AX1,AX4: 3,AX2: 3,AX3: 6
-            //AX2,AX1: 3,AX3: 3,AX4: 6
-            //AX3,AX2: 3,AX1: 6,AX4: 41
-            //AX4,AX1: 3,AX2: 6,AX3: 4,AX5: 15
-            //AX5,AX4: 15
-            for (int j = 1; j < setupLines.Length; j++)
+            
+            for (int i = 0; i < setupLines.Count; i++)
             {
-                string[] currentEdge = setupLines[j].Split(',');
-                for (int Edge = 1; Edge < currentEdge.Length; Edge++)
+                
+                if (i == 0)
                 {
-                    string StartId = currentEdge[0];
-                    string EndId = currentEdge[Edge];
-                    int weight;
-                    Regex rx = new Regex(":[0-9]{1,3}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-                    MatchCollection matches = rx.Matches(EndId);
+                    //AX1,AX2,AX3,AX4,AX5
+                    //Add Nodes
+                   string[] nodes = setupLines[i].Split(',');
+                    for (int j = 0; j < nodes.Length; j++)
+                    {
+                        Node node = new(nodes[j]);
+                        this.Nodes.Add(node);
+                    }
                 }
+                else
+                {
+                    //AX4,AX1: 3,AX2: 6,AX3: 4,AX5: 15
+                    string[] edges = setupLines[i].Split(',');
+                    string StartId = edges[0];
+                    Node currentNode = FindNode(StartId);
+                    for (int EndEdge = 1; EndEdge < edges.Length; EndEdge++)
+                    {
+                        string[] EndNodeAndWeight = edges[EndEdge].Split(':');
+                        string EndId = EndNodeAndWeight[0];
+                        int weight = int.Parse(EndNodeAndWeight[1]);
+                        Edge edge = new(weight, FindNode(StartId), FindNode(EndId));
+                        currentNode.EdgeList.Add(edge);
+                    }
+
+                }
+
             }
+
+            
+
         }
 
         public Node FindNode(string id)
         {
             return Nodes.First(n => n.Id.Equals(id)); //gets all nodes and puts them into n and when the node id matches what was passed through, return it.
+        }
+
+        public List<string> GetAllNodeIDs()
+        {
+            List<string> ids = new();
+            for (int i = 0; i < Nodes.Count; i++)
+            {
+                ids.Add(Nodes[i].Id);
+            }
+            return ids;
         }
     }
 }

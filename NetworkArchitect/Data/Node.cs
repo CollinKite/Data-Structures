@@ -19,14 +19,27 @@ namespace NetworkArchitect.Data
             EdgeList = new();
         }
 
-        public Edge FindEdgeByStartId(string startId)
-        {
-            return EdgeList.First(e => e.StartId.Equals(startId));
-        }
+        //public Edge FindEdgeByStartId(string startId)
+        //{
+        //    return EdgeList.First(e => e.StartId.Equals(startId));
+        //}
 
-        public Edge FindEdgeByEndId(string startId)
+        //public Edge FindEdgeByEndId(string startId)
+        //{
+        //    return EdgeList.First(e => e.StartId.Equals(startId));
+        //}
+
+        public bool AllNodesInEdgeListArePartOfTree()
         {
-            return EdgeList.First(e => e.StartId.Equals(startId));
+            bool AllInTree = true;
+            for (int i = 0; i < EdgeList.Count; i++)
+            {
+                if(EdgeList[i].EndNode.IsPartOfTree == false)
+                {
+                    AllInTree = false;
+                }
+            }
+            return AllInTree;
         }
     }
 }
