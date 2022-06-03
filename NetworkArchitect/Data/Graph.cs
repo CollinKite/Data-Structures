@@ -76,5 +76,18 @@ namespace NetworkArchitect.Data
             }
             return ids;
         }
+
+        public bool CheckIfAllNodesAreAdded()
+        {
+            bool AllAdded = true;
+            for (int i = 0; i < Nodes.Count; i++)
+            {
+                if(!Nodes[i].IsPartOfTree)
+                {
+                    AllAdded = false;
+                }
+            }
+            return AllAdded;
+        }
     }
 }

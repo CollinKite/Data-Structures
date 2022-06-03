@@ -28,18 +28,5 @@ namespace NetworkArchitect.Data
         //{
         //    return EdgeList.First(e => e.StartId.Equals(startId));
         //}
-
-        public bool AllNodesInEdgeListArePartOfTree()
-        {
-            bool AllInTree = true;
-            for (int i = 0; i < EdgeList.Count; i++)
-            {
-                if(EdgeList[i].EndNode.IsPartOfTree == false)
-                {
-                    AllInTree = false;
-                }
-            }
-            return AllInTree;
-        }
     }
 }
