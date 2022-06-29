@@ -10,8 +10,8 @@ namespace NetworkArchitect
     {
         public static void PrintResults(this Results results) //this represents object it's doing it off of
         {
-            Console.WriteLine("Socket Set: " + String.Join(", ",results));
-            Console.WriteLine("Cable Needed " + results.CableLenth + "ft");
+            Console.WriteLine("Socket Set: " + String.Join(", ",results.SocketSet));
+            Console.WriteLine("Cable Needed " + results.CableLength + "ft");
         }
     }
 }

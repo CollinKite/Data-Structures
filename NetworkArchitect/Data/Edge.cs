@@ -8,16 +8,16 @@ namespace NetworkArchitect.Data
 {
     public class Edge
     {
-        public Edge(int weight, string startId, string endId)
+        public Edge(int weight, Node Start, Node End)
         {
             Weight = weight;
-            StartId = startId;
-            EndId = endId;
+            StartNode = Start;
+            EndNode = End;
         }
 
         public int Weight { get; set; }
-        public string StartId { get; set; }
-        public string EndId { get; set; }
+        public Node StartNode { get; set; }
+        public Node EndNode { get; set; }
 
     }
 }
