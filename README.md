@@ -10,7 +10,7 @@
   3. Repeat step 2 recursivly until there are no more graphs that can be connected
   4. Output shortest path to connect all vertices, and the total length needed to connect them all.
 
-## Maze Solver/Graph
+## Maze Solver (Graph)
 * **Requirements:** Given a graph in an adjacency list format, with a start and end vertex from a text file, find the shortest path between the vertices if possible
 *  **Solution:** Dijkstra's algorithm
 *  **Code Breakdown:**
