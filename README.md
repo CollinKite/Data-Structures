@@ -1,5 +1,5 @@
 # CSC252-Data-Structures
-### Solutions for Data Structure Problems in my Data Structures. Problems and Solutions are Outlined below.
+### Solutions for Data Structure Problems in my Data Structures Class. Problems and Solutions are Outlined below.
 
 ## Minimum Spanning Tree/Network Architect
 * **Requirements:** Given a graph in an adjacency list format from a text file, find the shortest path to all other vertices without looping.
