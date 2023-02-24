@@ -1,4 +1,4 @@
-# CSC252-Data-Structures
+Data-Structures
 ### Solutions for Data Structure Problems in my Data Structures Class. Problems and Solutions are Outlined below.
 
 ## Minimum Spanning Tree/Network Architect
